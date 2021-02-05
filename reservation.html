@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style type="text/css">
+      .error {
+        color: red;
+        margin-left: 10px;
+        border: 0;
+      }
+
+      legend {
+        color: blue;
+      }
+      .control,
+      fieldset {
+        margin: 6px 0;
+      }
+
+      label {
+        display: inline-block;
+        width: 120px;
+        vertical-align: top;
+      }
+
+      input + label {
+        width: auto;
+      }
+
+      .submit,
+      .reset {
+        width: 150px;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Reservation Request</h1>
+
+    <form id="resRequest" onsubmit="return validateForm();">
+      <fieldset>
+        <legend>General Information</legend>
+        <div class="control">
+          <label for="arrival_date">Arrival date:</label>
+          <input id="arrival_date" type="text" />
+          <!-- <input id="arrival_date" type="date" /> -->
+          <label id="arrivalErr" class="error"></label>
+        </div>
+
+        <div class="control">
+          <label for="nights">Nights:</label>
+          <input id="nights" type="text" />
+          <label id="nightErr" class="error"> </label>
+        </div>
+
+        <div class="control">
+          <label for="adults">Adults:</label>
+          <select id="adults">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="children">Children:</label>
+          <select id="children">
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Preferences</legend>
+        <div class="control">
+          <label>Room type</label>
+          <input
+            type="radio"
+            name="roomType"
+            value="always"
+            checked="checked"
+          />Standard
+          <input type="radio" name="roomType" value="never" />Business
+          <input type="radio" name="roomType" value="costChange" />Suite
+        </div>
+        <div class="control">
+          <label>Bed type:</label>
+          <input
+            type="radio"
+            name="bedType"
+            value="always"
+            checked="checked"
+          />King <input type="radio" name="bedType" value="never" />Double
+          Double
+        </div>
+
+        <input type="checkbox" name="smoking" value="Smoking" />
+        <label for="smoking"> Smoking</label><br />
+      </fieldset>
+
+      <fieldset>
+        <legend>Interests</legend>
+
+        <div class="control">
+          <label for="name">Name:</label>
+          <input id="name" type="text" />
+          <label id="nameErr" class="error"></label>
+        </div>
+        <div class="control">
+          <label for="email">Email:</label>
+          <input id="email" type="text" />
+          <label id="emailErr" class="error"> </label>
+        </div>
+        <div class="control">
+          <label for="phone">Phone:</label>
+          <input id="phone" type="text" />
+          <label id="phoneErr" class="error"> </label>
+        </div>
+      </fieldset>
+
+      <div class="control">
+        <input
+          type="submit"
+          onclick="validateForm()"
+          class="submit"
+          value="Submit Reservation"
+        />
+        <input
+          type="reset"
+          onclick="resetLables()"
+          class="reset"
+          value="Clear"
+        />
+      </div>
+    </form>
+
+    <script type="text/javascript">
+
+      function validateForm() {
+        var emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var dateRegexp = /^([0-9]{2})([\/\-])(0?[1-9][1-2]?)([\/\-])([0-9]{4})$/;
+
+        var arrival_date = document.forms["resRequest"]["arrival_date"].value;
+        var nights = document.forms["resRequest"]["nights"].value;
+        var name = document.forms["resRequest"]["name"].value;
+        var email = document.forms["resRequest"]["email"].value;
+        var phone = document.forms["resRequest"]["phone"].value;
+
+        var arrivalErr = document.getElementById("arrivalErr");
+        var nightErr = document.getElementById("nightErr");
+        var nameErr = document.getElementById("nameErr");
+        var emailErr = document.getElementById("emailErr");
+        var phoneErr = document.getElementById("phoneErr");
+
+        if (!dateRegexp.test(arrival_date)) {
+          arrivalErr.innerHTML = "Enter valid date";
+          flag = 1;
+        } else arrivalErr.innerHTML = "";
+
+        if (isNaN(nights) || nights.trim().length == 0) {
+          nightErr.innerHTML = "Nights must be a number";
+          flag = 1;
+        } else nightErr.innerHTML = "";
+
+        if (name.trim().length == "") {
+          nameErr.innerHTML = "Name is required";
+          flag = 1;
+        } else nameErr.innerHTML = "";
+
+        if (!emailRegexp.test(email)) {
+          emailErr.innerHTML = "Email address is invalid";
+          flag = 1;
+        } else emailErr.innerHTML = "";
+
+        if (isNaN(phone.trim()) || phone.trim().length == 0) {
+          phoneErr.innerHTML = "Phone number is invalid";
+          flag = 1;
+        } else phoneErr.innerHTML = "";
+
+        if (flag == 1) return false;
+      }
+
+      function resetLables() {
+        // method 4
+        // method 3
+        document.querySelectorAll(".error").forEach((e) => e.remove());
+        // method 1
+        // var err = document.getElementsByClassName("error");
+        // for (var i = err.length - 1; i >= 0; i--) {
+        // 	err[i].innerHTML="";
+        // }
+        // method 2
+        // [].slice.call(document.querySelectorAll("span")).forEach(function(e){
+        // e.innerHTML="";
+        // })
+      }
+    </script>
+  </body>
+</html>
